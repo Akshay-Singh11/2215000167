@@ -3,6 +3,7 @@ import { useTheme } from '../components/Layout';
 import PageHeader from '../components/PageHeader';
 import ApiResponseViewer from '../components/ApiResponseViewer';
 import StatCard from '../components/StatCard';
+import ApiMetricsChart from '../components/ApiMetricsChart';
 import { CodeBracketIcon, ArrowPathIcon, CheckCircleIcon, ExclamationTriangleIcon, UserGroupIcon, DocumentTextIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 import { SparklesIcon } from '@heroicons/react/24/solid';
 import { fetchUsers, fetchPosts, fetchComments } from '../services/api';
@@ -154,6 +155,40 @@ const ApiTestPage: React.FC = () => {
             trend={apiStats.comments.lastTested ? { value: apiStats.comments.responseTime, isPositive: apiStats.comments.responseTime < 500 } : undefined}
           />
         </div>
+
+        {/* API Metrics Chart */}
+        {(apiStats.users.lastTested || apiStats.posts.lastTested || apiStats.comments.lastTested) && (
+          <div className={`mt-6 p-4 rounded-xl ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'} border shadow-sm`}>
+            <ApiMetricsChart
+              metrics={[
+                apiStats.users.lastTested ? {
+                  endpoint: 'Users',
+                  responseTime: apiStats.users.responseTime,
+                  dataCount: apiStats.users.count,
+                  timestamp: apiStats.users.lastTested,
+                  color: '#3b82f6' // blue-500
+                } : null,
+                apiStats.posts.lastTested ? {
+                  endpoint: 'Posts',
+                  responseTime: apiStats.posts.responseTime,
+                  dataCount: apiStats.posts.count,
+                  timestamp: apiStats.posts.lastTested,
+                  color: '#6366f1' // indigo-500
+                } : null,
+                apiStats.comments.lastTested ? {
+                  endpoint: 'Comments',
+                  responseTime: apiStats.comments.responseTime,
+                  dataCount: apiStats.comments.count,
+                  timestamp: apiStats.comments.lastTested,
+                  color: '#8b5cf6' // violet-500
+                } : null
+              ].filter(Boolean) as any[]}
+              height={200}
+              showLegend={true}
+              animate={true}
+            />
+          </div>
+        )}
       </PageHeader>
 
       {/* API Endpoints */}

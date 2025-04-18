@@ -24,16 +24,25 @@ import {
 import { SparklesIcon, BellAlertIcon } from '@heroicons/react/24/solid';
 import DropdownMenu, { DropdownItem, DropdownDivider } from './DropdownMenu';
 import Breadcrumbs from './Breadcrumbs';
+import ThemeSelector from './ThemeSelector';
 
 // Create a theme context
 interface ThemeContextType {
   darkMode: boolean;
   toggleDarkMode: () => void;
+  primaryColor?: string;
+  secondaryColor?: string;
+  setPrimaryColor?: (color: string) => void;
+  setSecondaryColor?: (color: string) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
   darkMode: false,
-  toggleDarkMode: () => {}
+  toggleDarkMode: () => {},
+  primaryColor: '#6366f1',
+  secondaryColor: '#a855f7',
+  setPrimaryColor: () => {},
+  setSecondaryColor: () => {}
 });
 
 // Custom hook to use the theme context
@@ -155,6 +164,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3);
   const [darkMode, setDarkMode] = useState(false);
+  const [primaryColor, setPrimaryColor] = useState('#6366f1');
+  const [secondaryColor, setSecondaryColor] = useState('#a855f7');
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -207,7 +218,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, [location]);
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+    <ThemeContext.Provider value={{
+      darkMode,
+      toggleDarkMode,
+      primaryColor,
+      secondaryColor,
+      setPrimaryColor: (color: string) => setPrimaryColor(color),
+      setSecondaryColor: (color: string) => setSecondaryColor(color)
+    }}>
       <div className={`flex h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-gray-50 to-gray-100'}`}>
       {/* Sidebar - Desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0">
@@ -350,6 +368,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </button>
                 </div>
               </DropdownMenu>
+
+              {/* Theme selector */}
+              <ThemeSelector />
 
               {/* Dark mode toggle */}
               <button
