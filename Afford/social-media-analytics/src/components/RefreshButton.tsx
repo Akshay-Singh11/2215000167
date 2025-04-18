@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowPathIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useTheme } from './Layout';
+import Icon from './Icon';
 
 interface RefreshButtonProps {
   onClick: () => void;
@@ -28,7 +29,7 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
   const { darkMode } = useTheme();
   const [showSuccess, setShowSuccess] = useState(false);
   const [rotation, setRotation] = useState(0);
-  
+
   // Handle success state after refreshing
   useEffect(() => {
     if (!isRefreshing && showSuccessState && !showSuccess) {
@@ -37,7 +38,7 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
       return () => clearTimeout(timer);
     }
   }, [isRefreshing, showSuccessState]);
-  
+
   // Handle rotation animation
   useEffect(() => {
     if (isRefreshing) {
@@ -49,7 +50,7 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
       setRotation(0);
     }
   }, [isRefreshing]);
-  
+
   // Size mappings
   const sizeMap = {
     small: {
@@ -65,7 +66,7 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
       icon: 'h-5 w-5 mr-2',
     },
   };
-  
+
   // Variant mappings
   const variantMap = {
     primary: {
@@ -74,36 +75,36 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
       success: `bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-sm`,
     },
     secondary: {
-      default: darkMode 
-        ? 'bg-gray-700 hover:bg-gray-600 text-white' 
+      default: darkMode
+        ? 'bg-gray-700 hover:bg-gray-600 text-white'
         : 'bg-gray-100 hover:bg-gray-200 text-gray-700',
-      refreshing: darkMode 
-        ? 'bg-gray-700 text-white opacity-90' 
+      refreshing: darkMode
+        ? 'bg-gray-700 text-white opacity-90'
         : 'bg-gray-100 text-gray-700 opacity-90',
-      success: darkMode 
-        ? 'bg-gray-700 text-green-400' 
+      success: darkMode
+        ? 'bg-gray-700 text-green-400'
         : 'bg-gray-100 text-green-600',
     },
     minimal: {
-      default: darkMode 
-        ? 'bg-transparent hover:bg-gray-700 text-gray-300' 
+      default: darkMode
+        ? 'bg-transparent hover:bg-gray-700 text-gray-300'
         : 'bg-transparent hover:bg-gray-100 text-gray-600',
-      refreshing: darkMode 
-        ? 'bg-transparent text-gray-400' 
+      refreshing: darkMode
+        ? 'bg-transparent text-gray-400'
         : 'bg-transparent text-gray-500',
-      success: darkMode 
-        ? 'bg-transparent text-green-400' 
+      success: darkMode
+        ? 'bg-transparent text-green-400'
         : 'bg-transparent text-green-600',
     },
   };
-  
+
   // Determine current state
-  const currentState = showSuccess 
-    ? 'success' 
-    : isRefreshing 
-      ? 'refreshing' 
+  const currentState = showSuccess
+    ? 'success'
+    : isRefreshing
+      ? 'refreshing'
       : 'default';
-  
+
   return (
     <button
       onClick={!isRefreshing && !showSuccess ? onClick : undefined}
@@ -113,14 +114,16 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
     >
       {showSuccess ? (
         <>
-          <CheckCircleIcon className={`${sizeMap[size].icon}`} />
+          <Icon icon={<CheckCircleIcon />} className={`${sizeMap[size].icon}`} />
           <span>{successLabel}</span>
         </>
       ) : (
         <>
-          <ArrowPathIcon 
-            className={`${sizeMap[size].icon} transition-transform duration-100 ease-in-out`} 
-            style={{ transform: `rotate(${rotation}deg)` }} 
+          <Icon
+            icon={<ArrowPathIcon />}
+            className={`${sizeMap[size].icon} transition-transform duration-100 ease-in-out`}
+            customSize={sizeMap[size].icon.split(' ')[0]}
+            style={{ transform: `rotate(${rotation}deg)` }}
           />
           <span>{isRefreshing ? refreshingLabel : label}</span>
         </>

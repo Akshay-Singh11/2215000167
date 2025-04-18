@@ -26,6 +26,8 @@ import { BellAlertIcon } from '@heroicons/react/24/solid';
 import DropdownMenu, { DropdownItem, DropdownDivider } from './DropdownMenu';
 import Breadcrumbs from './Breadcrumbs';
 import ThemeSelector from './ThemeSelector';
+import Icon from './Icon';
+import IconButton from './IconButton';
 
 // Create a theme context
 interface ThemeContextType {
@@ -63,7 +65,7 @@ const NavItem = memo(({ item, isActive, onClick, variant = 'sidebar', showLabel 
   badge?: number | string;
 }) => {
   const { darkMode } = useTheme();
-  const Icon = item.icon;
+  const IconComponent = item.icon;
 
   // Different styles based on variant
   const getStyles = () => {
@@ -137,12 +139,11 @@ const NavItem = memo(({ item, isActive, onClick, variant = 'sidebar', showLabel 
       onClick={onClick}
     >
       <div className="flex items-center">
-        <Icon
-          className={styles.icon}
-          aria-hidden="true"
-        />
+        <div className={styles.icon}>
+          <IconComponent className="h-5 w-5" />
+        </div>
         {showLabel && (
-          <span className={`${variant === 'topbar' ? 'ml-1' : ''} ${!showLabel && 'sr-only'}`}>
+          <span className={`${variant === 'topbar' ? 'ml-1' : 'ml-3'} ${!showLabel && 'sr-only'}`}>
             {item.name}
           </span>
         )}
@@ -176,7 +177,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Navigation items
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: RectangleGroupIcon },
-    { name: 'Creative Dashboard', path: '/creative-dashboard', icon: SparklesIcon },
     { name: 'Feed', path: '/', icon: HomeIcon },
     { name: 'Top Users', path: '/top-users', icon: UserGroupIcon },
     { name: 'Trending Posts', path: '/trending', icon: FireIcon },
@@ -234,7 +234,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="flex flex-col w-64 xl:w-72">
           <div className={`flex flex-col flex-grow pt-5 overflow-y-auto ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-lg rounded-r-xl`}>
             <div className={`flex items-center flex-shrink-0 px-6 py-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-              <SparklesIcon className="h-8 w-8 text-indigo-600 mr-3" />
+              <RectangleGroupIcon className="h-8 w-8 text-indigo-600 mr-3" />
               <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Social Pulse</span>
             </div>
             <div className="mt-6 flex-grow flex flex-col">
@@ -281,7 +281,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 )}
               </button>
               <div className="flex items-center">
-                <SparklesIcon className="h-7 w-7 text-indigo-600 mr-2" />
+                <RectangleGroupIcon className="h-7 w-7 text-indigo-600 mr-2" />
                 <span className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Social Pulse</span>
               </div>
 
@@ -375,13 +375,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <ThemeSelector />
 
               {/* Dark mode toggle */}
-              <button
+              <IconButton
+                icon={darkMode ? <SunIcon /> : <MoonIcon />}
                 onClick={toggleDarkMode}
-                className={`p-2 rounded-full ${darkMode ? 'text-yellow-300 hover:text-yellow-200 hover:bg-gray-700' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'} focus:outline-none`}
-                aria-label="Toggle dark mode"
-              >
-                {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-              </button>
+                variant="ghost"
+                size="md"
+                rounded="full"
+                ariaLabel="Toggle dark mode"
+              />
 
               {/* User profile dropdown */}
               <DropdownMenu

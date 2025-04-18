@@ -7,7 +7,6 @@ import TrendingPostsPage from './pages/TrendingPostsPage';
 import TestPage from './pages/TestPage';
 import DashboardPage from './pages/DashboardPage';
 import ApiTestPage from './pages/ApiTestPage';
-import CreativeDashboardPage from './pages/CreativeDashboardPage';
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
           <Routes>
             <Route path="/" element={<FeedPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/creative-dashboard" element={<CreativeDashboardPage />} />
             <Route path="/top-users" element={<TopUsersPage />} />
             <Route path="/trending" element={<TrendingPostsPage />} />
             <Route path="/test" element={<TestPage />} />
