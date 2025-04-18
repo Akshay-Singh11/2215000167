@@ -5,6 +5,7 @@ import FeedPage from './pages/FeedPage';
 import TopUsersPage from './pages/TopUsersPage';
 import TrendingPostsPage from './pages/TrendingPostsPage';
 import TestPage from './pages/TestPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   return (
@@ -13,10 +14,11 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<FeedPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/top-users" element={<TopUsersPage />} />
             <Route path="/trending" element={<TrendingPostsPage />} />
             <Route path="/test" element={<TestPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Layout>
       </SocialMediaProvider>
