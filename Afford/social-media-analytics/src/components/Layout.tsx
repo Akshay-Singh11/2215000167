@@ -19,9 +19,10 @@ import {
   InformationCircleIcon,
   QuestionMarkCircleIcon,
   ChevronDownIcon,
-  CodeBracketIcon
+  CodeBracketIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
-import { SparklesIcon, BellAlertIcon } from '@heroicons/react/24/solid';
+import { BellAlertIcon } from '@heroicons/react/24/solid';
 import DropdownMenu, { DropdownItem, DropdownDivider } from './DropdownMenu';
 import Breadcrumbs from './Breadcrumbs';
 import ThemeSelector from './ThemeSelector';
@@ -175,6 +176,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Navigation items
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: RectangleGroupIcon },
+    { name: 'Creative Dashboard', path: '/creative-dashboard', icon: SparklesIcon },
     { name: 'Feed', path: '/', icon: HomeIcon },
     { name: 'Top Users', path: '/top-users', icon: UserGroupIcon },
     { name: 'Trending Posts', path: '/trending', icon: FireIcon },

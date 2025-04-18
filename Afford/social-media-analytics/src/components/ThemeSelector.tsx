@@ -17,9 +17,6 @@ interface ThemeSelectorProps {
 const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
   const { darkMode, toggleDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(
-    darkMode ? themes[1] : themes[0]
-  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Available themes
@@ -68,6 +65,11 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
     },
   ];
 
+  // Initialize selected theme
+  const [selectedTheme, setSelectedTheme] = useState<ThemeOption>(
+    darkMode ? themes[1] : themes[0]
+  );
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -86,17 +88,17 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
   const handleThemeSelect = (theme: ThemeOption) => {
     setSelectedTheme(theme);
     setIsOpen(false);
-    
+
     // Toggle dark mode if needed
     if (theme.isDark !== darkMode) {
       toggleDarkMode();
     }
-    
+
     // Call the onThemeChange callback if provided
     if (onThemeChange) {
       onThemeChange(theme);
     }
-    
+
     // Apply theme colors to CSS variables
     document.documentElement.style.setProperty('--color-primary', theme.primaryColor);
     document.documentElement.style.setProperty('--color-secondary', theme.secondaryColor);
@@ -115,9 +117,9 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
       >
         <SwatchIcon className="h-5 w-5" />
       </button>
-      
+
       {isOpen && (
-        <div 
+        <div
           className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50 ${
             darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
           } animate-fade-in`}
@@ -128,7 +130,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
               Select Theme
             </h3>
           </div>
-          
+
           <div className="py-1">
             {themes.map((theme) => (
               <button
@@ -139,24 +141,24 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
                 } ${selectedTheme.value === theme.value ? 'bg-opacity-10' : ''}`}
               >
                 <div className="flex items-center">
-                  <div 
+                  <div
                     className="w-4 h-4 rounded-full mr-3 flex-shrink-0"
-                    style={{ 
-                      background: `linear-gradient(to right, ${theme.primaryColor}, ${theme.secondaryColor})` 
+                    style={{
+                      background: `linear-gradient(to right, ${theme.primaryColor}, ${theme.secondaryColor})`
                     }}
                   ></div>
                   <span className={darkMode ? 'text-gray-200' : 'text-gray-700'}>
                     {theme.name}
                   </span>
                 </div>
-                
+
                 {selectedTheme.value === theme.value && (
                   <CheckIcon className="h-4 w-4 text-green-500" />
                 )}
               </button>
             ))}
           </div>
-          
+
           <div className={`px-3 py-2 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
             <div className="flex justify-between">
               <button
@@ -167,15 +169,15 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
                   }
                 }}
                 className={`flex items-center text-xs px-2 py-1 rounded ${
-                  !darkMode 
-                    ? 'bg-amber-100 text-amber-800' 
+                  !darkMode
+                    ? 'bg-amber-100 text-amber-800'
                     : darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-800'
                 }`}
               >
                 <SunIcon className="h-3 w-3 mr-1" />
                 Light
               </button>
-              
+
               <button
                 onClick={() => {
                   if (!darkMode) {
@@ -184,8 +186,8 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
                   }
                 }}
                 className={`flex items-center text-xs px-2 py-1 rounded ${
-                  darkMode 
-                    ? 'bg-indigo-900/30 text-indigo-300' 
+                  darkMode
+                    ? 'bg-indigo-900/30 text-indigo-300'
                     : darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-800'
                 }`}
               >
