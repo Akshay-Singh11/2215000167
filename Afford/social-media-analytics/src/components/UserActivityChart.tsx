@@ -17,79 +17,80 @@ const UserActivityChart: React.FC<UserActivityChartProps> = ({ users, darkMode =
     const maxComments = Math.max(...topUsers.map(user => user.commentCount));
     const maxPosts = Math.max(...topUsers.map(user => user.postCount));
     const chartHeight = 150; // Height of the chart in pixels
-    
+
     return topUsers.map(user => ({
       id: user.id,
       name: user.name,
       username: user.username,
       commentCount: user.commentCount,
       postCount: user.postCount,
-      commentBarHeight: user.commentCount > 0 
-        ? Math.max(20, (user.commentCount / maxComments) * chartHeight) 
+      commentBarHeight: user.commentCount > 0
+        ? Math.max(20, (user.commentCount / maxComments) * chartHeight)
         : 5,
-      postBarHeight: user.postCount > 0 
-        ? Math.max(20, (user.postCount / maxPosts) * chartHeight) 
+      postBarHeight: user.postCount > 0
+        ? Math.max(20, (user.postCount / maxPosts) * chartHeight)
         : 5,
     }));
   }, [users]);
 
   return (
-    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm border ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>
+    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm border ${darkMode ? 'border-gray-700' : 'border-gray-100'} animate-fade-in`}>
       <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-800'} mb-4`}>User Activity</h3>
-      
+
       {chartData.length > 0 ? (
-        <div className="relative h-[200px]">
+        <div className="relative h-[200px] overflow-x-auto sm:overflow-x-visible">
           {/* Y-axis labels */}
-          <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col justify-between text-xs text-gray-500">
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-10 flex flex-col justify-between text-xs text-gray-500">
             <span>High</span>
             <span>Low</span>
           </div>
-          
+
           {/* Chart bars */}
-          <div className="ml-10 flex items-end justify-between h-[150px] border-b border-l relative">
+          <div className="ml-8 sm:ml-10 flex items-end justify-between h-[150px] border-b border-l relative min-w-[300px] sm:min-w-0">
             {/* Horizontal grid lines */}
             <div className="absolute left-0 right-0 top-0 h-[1px] bg-gray-200 opacity-30"></div>
             <div className="absolute left-0 right-0 top-[50px] h-[1px] bg-gray-200 opacity-30"></div>
             <div className="absolute left-0 right-0 top-[100px] h-[1px] bg-gray-200 opacity-30"></div>
-            
+
             {chartData.map((item) => (
               <div key={item.id} className="flex flex-col items-center flex-1">
                 <div className="flex items-end space-x-1">
                   {/* Comments bar */}
-                  <div 
-                    className="w-5 rounded-t-md transition-all duration-500 ease-in-out hover:opacity-80"
-                    style={{ 
+                  <div
+                    className="w-4 sm:w-5 rounded-t-md transition-all duration-500 ease-in-out hover:opacity-80 animate-slide-up"
+                    style={{
                       height: `${item.commentBarHeight}px`,
                       background: `linear-gradient(to top, ${
-                        darkMode 
-                          ? 'rgb(79, 70, 229), rgb(124, 58, 237)' 
+                        darkMode
+                          ? 'rgb(79, 70, 229), rgb(124, 58, 237)'
                           : 'rgb(99, 102, 241), rgb(139, 92, 246)'
-                      })` 
+                      })`
                     }}
                     title={`${item.name}: ${item.commentCount} comments`}
                   ></div>
-                  
+
                   {/* Posts bar */}
-                  <div 
-                    className="w-5 rounded-t-md transition-all duration-500 ease-in-out hover:opacity-80"
-                    style={{ 
+                  <div
+                    className="w-4 sm:w-5 rounded-t-md transition-all duration-500 ease-in-out hover:opacity-80 animate-slide-up"
+                    style={{
                       height: `${item.postBarHeight}px`,
                       background: `linear-gradient(to top, ${
-                        darkMode 
-                          ? 'rgb(220, 38, 38), rgb(234, 88, 12)' 
+                        darkMode
+                          ? 'rgb(220, 38, 38), rgb(234, 88, 12)'
                           : 'rgb(239, 68, 68), rgb(249, 115, 22)'
-                      })` 
+                      })`,
+                      animationDelay: '0.2s'
                     }}
                     title={`${item.name}: ${item.postCount} posts`}
                   ></div>
                 </div>
-                <div className={`text-xs mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'} truncate max-w-[60px] text-center`}>
+                <div className={`text-xs mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'} truncate max-w-[50px] sm:max-w-[60px] text-center`}>
                   @{item.username}
                 </div>
               </div>
             ))}
           </div>
-          
+
           {/* Legend */}
           <div className="mt-6 flex justify-center space-x-4">
             <div className="flex items-center">

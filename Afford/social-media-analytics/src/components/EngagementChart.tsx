@@ -17,13 +17,13 @@ const EngagementChart: React.FC<EngagementChartProps> = ({ posts, darkMode = fal
 
     const maxComments = Math.max(...recentPosts.map(post => post.comments.length));
     const chartHeight = 150; // Height of the chart in pixels
-    
+
     return recentPosts.map(post => ({
       id: post.id,
       title: post.title.length > 20 ? post.title.substring(0, 20) + '...' : post.title,
       commentCount: post.comments.length,
-      barHeight: post.comments.length > 0 
-        ? Math.max(20, (post.comments.length / maxComments) * chartHeight) 
+      barHeight: post.comments.length > 0
+        ? Math.max(20, (post.comments.length / maxComments) * chartHeight)
         : 5, // Minimum bar height of 5px or 20px if there are comments
     }));
   }, [posts]);
@@ -35,45 +35,45 @@ const EngagementChart: React.FC<EngagementChartProps> = ({ posts, darkMode = fal
   };
 
   return (
-    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm border ${darkMode ? 'border-gray-700' : 'border-gray-100'}`}>
+    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-sm border ${darkMode ? 'border-gray-700' : 'border-gray-100'} animate-fade-in`}>
       <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-gray-800'} mb-4`}>Engagement Trends</h3>
-      
+
       {chartData.length > 0 ? (
-        <div className="relative h-[200px]">
+        <div className="relative h-[200px] overflow-x-auto sm:overflow-x-visible">
           {/* Y-axis labels */}
-          <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col justify-between text-xs text-gray-500">
+          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-10 flex flex-col justify-between text-xs text-gray-500">
             <span>High</span>
             <span>Low</span>
           </div>
-          
+
           {/* Chart bars */}
-          <div className="ml-10 flex items-end justify-between h-[150px] border-b border-l relative">
+          <div className="ml-8 sm:ml-10 flex items-end justify-between h-[150px] border-b border-l relative min-w-[300px] sm:min-w-0">
             {/* Horizontal grid lines */}
             <div className="absolute left-0 right-0 top-0 h-[1px] bg-gray-200 opacity-30"></div>
             <div className="absolute left-0 right-0 top-[50px] h-[1px] bg-gray-200 opacity-30"></div>
             <div className="absolute left-0 right-0 top-[100px] h-[1px] bg-gray-200 opacity-30"></div>
-            
+
             {chartData.map((item, index) => (
               <div key={item.id} className="flex flex-col items-center flex-1">
-                <div 
-                  className="w-12 rounded-t-md transition-all duration-500 ease-in-out hover:opacity-80"
-                  style={{ 
+                <div
+                  className="w-8 sm:w-12 rounded-t-md transition-all duration-500 ease-in-out hover:opacity-80 animate-slide-up"
+                  style={{
                     height: `${item.barHeight}px`,
                     background: `linear-gradient(to top, ${
-                      darkMode 
-                        ? 'rgb(79, 70, 229), rgb(124, 58, 237)' 
+                      darkMode
+                        ? 'rgb(79, 70, 229), rgb(124, 58, 237)'
                         : 'rgb(99, 102, 241), rgb(139, 92, 246)'
-                    })` 
+                    })`
                   }}
                   title={`${item.title}: ${item.commentCount} comments`}
                 ></div>
-                <div className={`text-xs mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <div className={`text-xs mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'} truncate max-w-[60px] text-center`}>
                   {formatDate(posts[posts.length - chartData.length + index].createdAt)}
                 </div>
               </div>
             ))}
           </div>
-          
+
           {/* Legend */}
           <div className="mt-6 flex justify-center">
             <div className="flex items-center">
