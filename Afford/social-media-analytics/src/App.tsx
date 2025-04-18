@@ -6,6 +6,7 @@ import TopUsersPage from './pages/TopUsersPage';
 import TrendingPostsPage from './pages/TrendingPostsPage';
 import TestPage from './pages/TestPage';
 import DashboardPage from './pages/DashboardPage';
+import ApiTestPage from './pages/ApiTestPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/top-users" element={<TopUsersPage />} />
             <Route path="/trending" element={<TrendingPostsPage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/api-test" element={<ApiTestPage />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Layout>

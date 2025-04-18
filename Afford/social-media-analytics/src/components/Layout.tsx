@@ -18,7 +18,8 @@ import {
   UserCircleIcon,
   InformationCircleIcon,
   QuestionMarkCircleIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  CodeBracketIcon
 } from '@heroicons/react/24/outline';
 import { SparklesIcon, BellAlertIcon } from '@heroicons/react/24/solid';
 import DropdownMenu, { DropdownItem, DropdownDivider } from './DropdownMenu';
@@ -166,6 +167,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Feed', path: '/', icon: HomeIcon },
     { name: 'Top Users', path: '/top-users', icon: UserGroupIcon },
     { name: 'Trending Posts', path: '/trending', icon: FireIcon },
+    { name: 'API Test', path: '/api-test', icon: CodeBracketIcon },
     { name: 'Test', path: '/test', icon: ChartBarIcon },
   ];
 
